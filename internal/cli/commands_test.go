@@ -104,7 +104,7 @@ func TestUserAgentTransportSetsHeader(t *testing.T) {
 		return &http.Response{StatusCode: http.StatusOK, Header: http.Header{}, Body: http.NoBody}, nil
 	})
 
-	req, err := http.NewRequest(http.MethodGet, "https://example.com/feed/", nil)
+	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://example.com/feed/", nil)
 	require.NoError(t, err)
 
 	resp, err := withUserAgent(&http.Client{Transport: base}).Do(req)
@@ -122,7 +122,7 @@ func TestUserAgentTransportKeepsCallerHeader(t *testing.T) {
 		return &http.Response{StatusCode: http.StatusOK, Header: http.Header{}, Body: http.NoBody}, nil
 	})
 
-	req, err := http.NewRequest(http.MethodGet, "https://example.com/feed/", nil)
+	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://example.com/feed/", nil)
 	require.NoError(t, err)
 	req.Header.Set("User-Agent", "caller/1.0")
 
